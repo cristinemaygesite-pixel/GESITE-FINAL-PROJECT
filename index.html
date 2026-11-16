@@ -1,0 +1,543 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BAGS & ACCESSORIES", "E-COMMERCE INVENTORY", "& SEARCH SYSTEM</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #eef6fc;
+    color: #263746;
+}
+
+header {
+    background: #123b5d;
+    color: white;
+    text-align: center;
+    padding: 28px 15px;
+}
+
+header h1 {
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+header p {
+    color: #cce6f7;
+}
+
+.container {
+    max-width: 1150px;
+    margin: 25px auto;
+    padding: 20px;
+}
+
+.menu {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.menu button {
+    padding: 18px;
+    background: #d8ecfa;
+    color: #123b5d;
+    border: 2px solid #8fc4e7;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.menu button:hover {
+    background: #247bb5;
+    color: white;
+    transform: translateY(-3px);
+}
+
+.panel {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px #00000012;
+    min-height: 250px;
+}
+
+.panel h2 {
+    color: #164e75;
+    margin-bottom: 20px;
+}
+
+input, select {
+    padding: 11px;
+    margin: 7px 5px 7px 0;
+    border: 1px solid #b8cbd8;
+    border-radius: 6px;
+    width: 220px;
+    max-width: 100%;
+}
+
+.action {
+    background: #247bb5;
+    color: white;
+    border: none;
+    padding: 11px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.action:hover {
+    background: #123b5d;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 18px;
+    min-width: 650px;
+}
+
+th {
+    background: #164e75;
+    color: white;
+}
+
+th, td {
+    padding: 12px;
+    border: 1px solid #d5e1e9;
+    text-align: left;
+}
+
+tr:nth-child(even) {
+    background: #eef6fc;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+.message {
+    margin-top: 15px;
+    padding: 12px;
+    border-radius: 6px;
+    background: #e2f4e8;
+    color: #206438;
+}
+
+.brand-card {
+    display: inline-block;
+    background: #e2f2fc;
+    padding: 20px;
+    margin: 8px;
+    border-radius: 10px;
+    min-width: 200px;
+    border: 1px solid #9ccbe8;
+}
+
+.total {
+    font-size: 20px;
+    font-weight: bold;
+    color: #164e75;
+    margin-top: 20px;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #668094;
+}
+
+@media(max-width:600px) {
+    header h1 {
+        font-size: 21px;
+    }
+
+    .container {
+        padding: 12px;
+    }
+
+    .panel {
+        padding: 15px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>BAGS & ACCESSORIES</h1>
+    <h2>E-Commerce Inventory & Search System</h2>
+    <p>Official Partner Brands: Herschel | Anello | Jansport | Guess</p>
+</header>
+
+<div class="container">
+
+    <h2>Main Menu</h2>
+
+    <div class="menu">
+        <button onclick="viewCatalog()">1. View Complete Catalog</button>
+        <button onclick="filterBrand()">2. Filter Products by Official Brand</button>
+        <button onclick="searchProduct()">3. Search Products by Keyword</button>
+        <button onclick="filterPrice()">4. Filter Products by Price Range</button>
+        <button onclick="addToCart()">5. Add Item to Shopping Cart</button>
+        <button onclick="checkout()">6. Process Customer Checkout</button>
+        <button onclick="undoAction()">7. Perform Admin Undo Action</button>
+        <button onclick="showBrands()">8. Partner Brand Banner Showcase</button>
+        <button onclick="sortInventory()">9. Sort Inventory Display</button>
+        <button onclick="exitSystem()">10. Exit</button>
+    </div>
+
+    <div class="panel" id="content">
+        <h2>Welcome to Bags & Accessories!</h2>
+        <p>Select one of the ten features above to manage your inventory.</p>
+    </div>
+
+</div>
+
+<footer>
+    Bags & Accessories Management System
+    <br>
+    © 2026 All Rights Reserved
+</footer>
+
+<script>
+
+let products = [
+    {id:1001,name:"Classic Backpack",category:"Backpack",brand:"Herschel",price:1899,stock:12},
+    {id:1002,name:"Mini Backpack",category:"Backpack",brand:"Anello",price:1499,stock:10},
+    {id:1003,name:"School Backpack",category:"Backpack",brand:"Jansport",price:1299,stock:15},
+    {id:1004,name:"Logo Shoulder Bag",category:"Shoulder Bag",brand:"Guess",price:2299,stock:7},
+    {id:1005,name:"Travel Tote Bag",category:"Tote Bag",brand:"Herschel",price:999,stock:9},
+    {id:1006,name:"Crossbody Bag",category:"Crossbody",brand:"Guess",price:1799,stock:6},
+    {id:1007,name:"Canvas Tote",category:"Tote Bag",brand:"Anello",price:799,stock:14},
+    {id:1008,name:"Laptop Backpack",category:"Backpack",brand:"Jansport",price:1599,stock:8}
+];
+
+let cart = [];
+let undoStack = [];
+let checkoutQueue = [];
+let checkoutHistory = [];
+let cartHistory = [];
+
+const brands = {
+    Herschel:"CLASSIC DESIGN - Travel and everyday bags",
+    Anello:"SMART STYLE - Everyday bags and accessories",
+    Jansport:"ALWAYS WITH YOU - Backpacks and daily carry",
+    Guess:"ICONIC STYLE - Fashion bags and accessories"
+};
+
+function money(value) {
+    return "PHP " + value.toLocaleString("en-PH", {
+        minimumFractionDigits:2
+    });
+}
+
+function panel(title, content) {
+    document.getElementById("content").innerHTML =
+        `<h2>${title}</h2>${content}`;
+}
+
+function table(data) {
+    if (!data.length) return "<p>No products found.</p>";
+
+    return `
+    <div class="table-wrap">
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Product</th>
+            <th>Category</th>
+            <th>Brand</th>
+            <th>Price</th>
+            <th>Stock</th>
+        </tr>
+        ${data.map(p => `
+        <tr>
+            <td>${p.id}</td>
+            <td>${p.name}</td>
+            <td>${p.category}</td>
+            <td>${p.brand}</td>
+            <td>${money(p.price)}</td>
+            <td>${p.stock}</td>
+        </tr>`).join("")}
+    </table>
+    </div>`;
+}
+
+// FEATURE 1
+function viewCatalog() {
+    panel("1. Complete Product Catalog", table(products));
+}
+
+// FEATURE 2
+function filterBrand() {
+    panel("2. Filter Products by Official Brand", `
+        <p>Select an official partner brand.</p>
+        <select id="brand">
+            <option>Herschel</option>
+            <option>Anello</option>
+            <option>Jansport</option>
+            <option>Guess</option>
+        </select>
+        <button class="action" onclick="applyBrand()">Search Brand</button>
+        <div id="result"></div>
+    `);
+}
+
+function applyBrand() {
+    let brand = document.getElementById("brand").value;
+    let result = products.filter(p => p.brand === brand);
+
+    document.getElementById("result").innerHTML =
+        `<h3>${brand} Products</h3>${table(result)}`;
+}
+
+// FEATURE 3
+function searchProduct() {
+    panel("3. Search Products by Keyword", `
+        <input id="keyword" placeholder="Enter product, category or brand">
+        <button class="action" onclick="applySearch()">Search</button>
+        <div id="result"></div>
+    `);
+}
+
+function applySearch() {
+    let keyword = document.getElementById("keyword").value.toLowerCase();
+
+    let result = products.filter(p =>
+        (p.name + " " + p.category + " " + p.brand)
+        .toLowerCase().includes(keyword)
+    );
+
+    document.getElementById("result").innerHTML = table(result);
+}
+
+// FEATURE 4
+function filterPrice() {
+    panel("4. Filter Products by Price Range", `
+        <input type="number" id="min" placeholder="Minimum Price">
+        <input type="number" id="max" placeholder="Maximum Price">
+        <button class="action" onclick="applyPrice()">Filter</button>
+        <div id="result"></div>
+    `);
+}
+
+function applyPrice() {
+    let min = Number(document.getElementById("min").value);
+    let max = Number(document.getElementById("max").value);
+
+    if (document.getElementById("min").value === "" ||
+        document.getElementById("max").value === "" ||
+        min < 0 || max < 0 || min > max) {
+        alert("Please enter a valid price range.");
+        return;
+    }
+
+    let result = products.filter(p =>
+        p.price >= min && p.price <= max
+    );
+
+    document.getElementById("result").innerHTML = table(result);
+}
+
+// FEATURE 5
+function addToCart() {
+    panel("5. Add Item to Shopping Cart", `
+        ${table(products)}
+        <br>
+        <input type="number" id="productID" placeholder="Product ID">
+        <input type="number" id="quantity" placeholder="Quantity">
+        <button class="action" onclick="applyCart()">Add to Cart</button>
+        <div id="result"></div>
+    `);
+}
+
+function applyCart() {
+    let id = Number(document.getElementById("productID").value);
+    let quantity = Number(document.getElementById("quantity").value);
+
+    let p = products.find(x => x.id === id);
+
+    if (!p || !Number.isInteger(quantity) || quantity <= 0) {
+        alert("Invalid product ID or quantity.");
+        return;
+    }
+
+    let already = cart
+        .filter(x => x.id === id)
+        .reduce((sum, x) => sum + x.quantity, 0);
+
+    if (quantity > p.stock - already) {
+        alert("Requested quantity exceeds available stock.");
+        return;
+    }
+
+    cart.push({
+        id:p.id,
+        name:p.name,
+        price:p.price,
+        quantity:quantity
+    });
+
+    cartHistory.push([...cart]);
+
+    displayCart();
+}
+
+function displayCart() {
+    let total = cart.reduce((sum,x) =>
+        sum + x.price * x.quantity, 0);
+
+    document.getElementById("result").innerHTML = `
+        <h3>Shopping Cart</h3>
+        ${cart.map(x => `
+            <p>${x.name} - ${x.quantity} pcs -
+            ${money(x.price * x.quantity)}</p>
+        `).join("")}
+        <p class="total">Cart Total: ${money(total)}</p>
+        <p class="message">Item successfully added!</p>
+    `;
+}
+
+// FEATURE 6
+function checkout() {
+    if (!cart.length) {
+        panel("6. Customer Checkout", "<p>Your shopping cart is empty.</p>");
+        return;
+    }
+
+    checkoutQueue = [...cart];
+
+    let total = 0;
+    let processed = [];
+
+    while (checkoutQueue.length) {
+        let item = checkoutQueue.shift();
+        let p = products.find(x => x.id === item.id);
+
+        if (!p || p.stock < item.quantity) continue;
+
+        let oldStock = p.stock;
+        p.stock -= item.quantity;
+
+        let subtotal = item.price * item.quantity;
+        total += subtotal;
+
+        processed.push({
+            item:item,
+            oldStock:oldStock,
+            subtotal:subtotal
+        });
+
+        undoStack.push({
+            type:"CHECKOUT",
+            id:p.id,
+            quantity:item.quantity
+        });
+    }
+
+    checkoutHistory.push(processed);
+    cart = [];
+
+    panel("6. Checkout Summary", `
+        <h3>Checkout Completed!</h3>
+        <p>Processed Items: ${processed.length}</p>
+        ${processed.map(x => `
+            <p>${x.item.name} - ${x.item.quantity} pcs -
+            ${money(x.subtotal)}</p>
+        `).join("")}
+        <p class="total">Grand Total: ${money(total)}</p>
+        <p class="message">Thank you for your purchase!</p>
+    `);
+}
+
+// FEATURE 7
+function undoAction() {
+    let action = undoStack.pop();
+
+    if (!action) {
+        panel("7. Admin Undo Action", "<p>No action available to undo.</p>");
+        return;
+    }
+
+    if (action.type === "CHECKOUT") {
+        let p = products.find(x => x.id === action.id);
+        if (p) p.stock += action.quantity;
+    }
+
+    panel("7. Admin Undo Action", `
+        <p class="message">Undo successful!</p>
+        <p>Action: ${action.type}</p>
+        <p>Inventory has been restored.</p>
+        ${table(products)}
+    `);
+}
+
+// FEATURE 8
+function showBrands() {
+    let output = Object.entries(brands).map(([name,banner]) => `
+        <div class="brand-card">
+            <h3>${name}</h3>
+            <p>${banner}</p>
+        </div>
+    `).join("");
+
+    panel("8. Partner Brand Banner Showcase", output);
+}
+
+// FEATURE 9
+function sortInventory() {
+    panel("9. Sort Inventory Display", `
+        <select id="sort">
+            <option value="price">Price - Low to High</option>
+            <option value="stock">Stock - High to Low</option>
+            <option value="brand">Brand - A to Z</option>
+        </select>
+        <button class="action" onclick="applySort()">Sort Inventory</button>
+        <div id="result"></div>
+    `);
+}
+
+function applySort() {
+    let type = document.getElementById("sort").value;
+    let sorted = [...products];
+
+    if (type === "price") {
+        sorted.sort((a,b) => a.price - b.price);
+    } else if (type === "stock") {
+        sorted.sort((a,b) => b.stock - a.stock);
+    } else {
+        sorted.sort((a,b) => a.brand.localeCompare(b.brand));
+    }
+
+    document.getElementById("result").innerHTML = table(sorted);
+}
+
+// FEATURE 10
+function exitSystem() {
+    panel("10. Thank You!", `
+        <h3>Thank you for using our system!</h3>
+        <p>Bags & Accessories Store Management System</p>
+        <button class="action" onclick="location.reload()">
+            Return to Main Menu
+        </button>
+    `);
+}
+
+</script>
+
+</body>
+</html>
