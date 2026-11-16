@@ -1,0 +1,55 @@
+
+name:BAGS & ACCESSORIES,E-COMMERCE INVENTORY,& SEARCH SYSTEM
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  validate-html:
+    name: Validate Website
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Check index.html
+        run: |
+          if [ ! -f index.html ]; then
+            echo "ERROR: index.html not found!"
+            exit 1
+          fi
+          echo "SUCCESS: index.html found!"
+
+      - name: Check HTML Structure
+        run: |
+          grep -qi '<!DOCTYPE html>' index.html
+          grep -qi '<html' index.html
+          grep -qi '<head>' index.html
+          grep -qi '<body>' index.html
+          grep -qi '</html>' index.html
+          echo "SUCCESS: Basic HTML structure is valid!"
+
+      - name: Check Required Features
+        run: |
+          grep -q 'function viewCatalog' index.html
+          grep -q 'function filterBrand' index.html
+          grep -q 'function searchProduct' index.html
+          grep -q 'function filterPrice' index.html
+          grep -q 'function addToCart' index.html
+          grep -q 'function checkout' index.html
+          grep -q 'function undoAction' index.html
+          grep -q 'function showBrands' index.html
+          grep -q 'function sortInventory' index.html
+          grep -q 'function exitSystem' index.html
+
+          echo "SUCCESS: All 10 features were found!"
+
+      - name: Build Status
+        run: echo "Bags and Accessories Store validation completed successfully!"
